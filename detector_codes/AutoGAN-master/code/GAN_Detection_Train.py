@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #-*- coding: utf-8 -*- 
 #===========================================================
 #  File Name: GAN_Detection_Train.py
@@ -36,7 +36,7 @@ import torch.nn as nn
 
 from torchvision import transforms, models
 import pggan_dnet
-from skimage.feature import greycomatrix
+from skimage.feature import greycomatrix, greycoprops
 
 parser = argparse.ArgumentParser(description='PyTorch GAN Image Detection')
 

@@ -72,6 +72,7 @@ if __name__ == '__main__':
 
     for epoch in range(opt.niter):
         epoch_start_time = time.time()
+        print('Epoch:', epoch, epoch_start_time)
         iter_data_time = time.time()
         epoch_iter = 0
 

@@ -1,0 +1,25 @@
+name: AutoGAN
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - pip
+  - numpy>=1.22
+  - scipy>=1.8
+  - scikit-image>=0.18
+  - matplotlib>=3.5
+  - tqdm
+  - pandas
+  - pillow
+  - opencv
+  - networkx
+  - cudatoolkit=11.7
+  - pytorch
+  - torchvision
+  - pip:
+      - dominate==2.4.0
+      - protobuf==3.9.1
+      - tensorboard-logger==0.1.0
+

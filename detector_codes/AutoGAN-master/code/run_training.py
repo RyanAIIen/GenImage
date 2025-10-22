@@ -30,6 +30,8 @@ import argparse
 ####################################################################
 # Parse command line
 ####################################################################
+parser = argparse.ArgumentParser(description="Train a GAN image detector")
+
 parser.add_argument('--dataset', type=str, default='CycleGAN', help='Training dataset select from: CycleGAN and AutoGAN')
 parser.add_argument('--feature', default='image', help='Feature used for training, choose from image and fft')
 parser.add_argument('--gpu-id', default='0', help='Feature used for training, choose from image and fft')
@@ -64,9 +66,9 @@ else:
 number_gpu = len(gpu_set)
 
 if args.dataset == 'CycleGAN':
-    datasets = ['horse', 'zebra', 'summer', 'winter', 'apple', 'orange',  'facades', 'cityscapes', 'satellite', 'ukiyoe', 'vangogh', 'cezanne', 'monet', 'photo']
+    datasets = ['adm']
 elif args.dataset == 'AutoGAN':
-    datasets = ['horse_auto', 'zebra_auto', 'summer_auto', 'winter_auto', 'apple_auto', 'orange_auto', 'facades_auto', 'cityscapes_auto', 'satellite_auto', 'ukiyoe_auto', 'vangogh_auto', 'cezanne_auto', 'monet_auto', 'photo_auto']
+    datasets = ['adm']
 else:
     print('Not a valid dataset!')
     exit(-1)
@@ -77,7 +79,7 @@ index = 0
 for idx, parameter in enumerate(parameter_set):
     for dataset in datasets:
         print('Test Parameter: {}'.format(parameter))
-        command = 'python ./code/GAN_Detection_Train.py --training-set {} --model=resnet --test-set=transposed_conv --data_augment\
+        command = 'python GAN_Detection_Train.py --training-set {} --model=resnet --test-set=transposed_conv --data_augment\
                 --batch-size=16 --test-batch-size=16 {} --gpu-id {} --model-dir ./model_resnet/  --log-dir ./resnet_log/ --enable-logging=False --epochs 20 '\
                 .format(dataset, parameter, gpu_set[index%number_gpu])# 
     
