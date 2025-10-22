@@ -1,0 +1,35 @@
+BASE:
+  - '../swin/swin_tiny_patch4_window7_224.yaml'
+
+MODEL:
+  NAME: ryan_swin_midjourney
+  NUM_CLASSES: 2
+
+DATA:
+  BATCH_SIZE: 64
+  NUM_WORKERS: 8
+  DATA_PATH: '/nfs/turbo/umd-anglial/GenImageDetector/raw_dataset/midjourney'
+
+TRAIN:
+  EPOCHS: 100
+  WARMUP_EPOCHS: 5
+  BASE_LR: 5e-4
+  WARMUP_LR: 5e-7
+  MIN_LR: 5e-6
+  CLIP_GRAD: 5.0
+  AUTO_RESUME: True
+  USE_CHECKPOINT: False
+
+AUG:
+  MIXUP: 0.0
+  CUTMIX: 0.0
+  COLOR_JITTER: 0.4
+  AUTO_AUGMENT: None
+
+TEST:
+  CROP: False
+
+OUTPUT: 'output'
+SAVE_FREQ: 1  # Save checkpoint every epoch
+PRINT_FREQ: 100
+AMP_OPT_LEVEL: 'O1'
