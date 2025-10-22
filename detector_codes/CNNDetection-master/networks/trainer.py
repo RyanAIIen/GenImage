@@ -15,7 +15,9 @@ class Trainer(BaseModel):
         if self.isTrain and not opt.continue_train:
             self.model = resnet50(pretrained=True)
             self.model.fc = nn.Linear(2048, 1)
-            torch.nn.init.normal_(self.model.fc.weight.data, 0.0, opt.init_gain)
+            torch.nn.init.normal_(
+                self.model.fc.weight.data, 0.0, opt.init_gain
+            )
 
         if not self.isTrain or opt.continue_train:
             self.model = resnet50(num_classes=1)
@@ -24,22 +26,33 @@ class Trainer(BaseModel):
             self.loss_fn = nn.BCEWithLogitsLoss()
             # initialize optimizers
             if opt.optim == 'adam':
-                self.optimizer = torch.optim.Adam(self.model.parameters(),
-                                                  lr=opt.lr, betas=(opt.beta1, 0.999))
+                self.optimizer = torch.optim.Adam(
+                    self.model.parameters(),
+                    lr=opt.lr,
+                    betas=(opt.beta1, 0.999),
+                )
             elif opt.optim == 'sgd':
-                self.optimizer = torch.optim.SGD(self.model.parameters(),
-                                                 lr=opt.lr, momentum=0.0, weight_decay=0)
+                self.optimizer = torch.optim.SGD(
+                    self.model.parameters(),
+                    lr=opt.lr,
+                    momentum=0.0,
+                    weight_decay=0,
+                )
             else:
                 raise ValueError("optim should be [adam, sgd]")
 
         if not self.isTrain or opt.continue_train:
             self.load_networks(opt.epoch)
-        self.model.to(opt.gpu_ids[0])
 
+        # Handle both CPU and GPU cases
+        if len(opt.gpu_ids) > 0:
+            self.model.to(f'cuda:{opt.gpu_ids[0]}')
+        else:
+            self.model.to('cpu')
 
     def adjust_learning_rate(self, min_lr=1e-6):
         for param_group in self.optimizer.param_groups:
-            param_group['lr'] /= 10.
+            param_group['lr'] /= 10.0
             if param_group['lr'] < min_lr:
                 return False
         return True
@@ -47,7 +60,6 @@ class Trainer(BaseModel):
     def set_input(self, input):
         self.input = input[0].to(self.device)
         self.label = input[1].to(self.device).float()
-
 
     def forward(self):
         self.output = self.model(self.input)
@@ -61,4 +73,3 @@ class Trainer(BaseModel):
         self.optimizer.zero_grad()
         self.loss.backward()
         self.optimizer.step()
-
