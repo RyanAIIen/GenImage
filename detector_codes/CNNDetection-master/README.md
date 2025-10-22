@@ -23,7 +23,7 @@ train on the Midjourney dataset:
 ```bash
 python train.py \
     --name midjourney1 \
-    --dataroot /path/to/midjourney/dataset/train
+    --dataroot /path/to/dataset/midjourney/train
 ```
 
 The final model will be saved as `checkpoints/<model_path>/model_epoch_best.pth`.
@@ -36,7 +36,7 @@ To validate a trained model's performance, you can run:
 ```bash
 python demo_dir.py \
     --model_path checkpoints/midjourney1/model_epoch_best.pth
-    -dataroot /path/to/validation/dataset/val
+    -dataroot /path/to/dataset/midjourney/val
 ```
 
 This will output accuracy and precision metrics for the validation dataset to
